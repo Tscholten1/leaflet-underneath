@@ -1,6 +1,6 @@
 var map = L.map('map').setView([41.160457, -89.997416], 7),
     featureLayer = L.geoJson(undefined, {
-        pointToLayer: function(f, latLng) {
+        pointToLayer: function (f, latLng) {
             return L.circleMarker(latLng, {
                     radius: 4,
                     opacity: 1,
@@ -15,15 +15,15 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var pois = L.underneath('http://{s}.tiles.mapbox.com/v8/mapbox.mapbox-streets-v8/' +
-            '{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1IjoibGllZG1hbiIsImEiOiJjaWtjYjh5cGcwMDNhdm5sdmoycmgzY3drIn0.CZCSz1N53qWOVB0j2A_5pg', map, {
-                layers: ['poi_label'],
-                zoomIn: 2
-            });
+    '{z}/{x}/{y}.vector.pbf?access_token=pk.eyJ1IjoidHNjaG9sdGVuIiwiYSI6ImNrMnhjbGR5ZTBhNWEzbXJ2MTB6YjUwcGgifQ.rHpxZ4E3shUX1L2CEDQwXg', map, {
+        layers: ['poi_label'],
+        zoomIn: 2
+    });
 
-map.on('click', function(e) {
+map.on('click', function (e) {
     var results = [],
         content = '<h2>Nearby</h2> <ul>',
-        showResults = function(results) {
+        showResults = function (results) {
             featureLayer.addData(results);
             for (var i = 0; i < results.length; i++) {
                 var f = results[i],
@@ -43,12 +43,14 @@ map.on('click', function(e) {
         };
 
     featureLayer.clearLayers();
-    pois.query(e.latlng, function(err, results) {
+    pois.query(e.latlng, function (err, results) {
         if (results.length > 0) {
             results = results.splice(0, 5);
             showResults(results);
         }
-    }, null, {radius: 50});
+    }, null, {
+        radius: 50
+    });
 });
 
 L.popup()
